@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="InputFiles\AOC_input_2023-01.txt" />
     <None Remove="InputFiles\AOC_input_2023-02.txt" />
+    <None Remove="InputFiles\AOC_input_2023-03.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +18,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="InputFiles\AOC_input_2023-02.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="InputFiles\AOC_input_2023-03.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
