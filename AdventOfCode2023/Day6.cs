@@ -50,9 +50,34 @@ namespace AdventOfCode2023
         private static int Part2(ref StreamReader reader)
         {
             string[] input = reader.ReadToEnd().Split(':');
+            Regex numbers = new Regex(@"([0-9]+\s*)+");
+            Regex whiteSpaces = new Regex(@"\s+");
+
+            input[1] = numbers.Match(input[1]).Value;
+            input[1] = whiteSpaces.Replace(input[1], String.Empty);
+            input[2] = numbers.Match(input[2]).Value;
+            input[2] = whiteSpaces.Replace(input[2], String.Empty);
+            Console.WriteLine($"time = {input[1]} distance = {input[2]}");
+
+
+            long time = Int64.Parse(input[1]);
+            long recordDistance = Int64.Parse(input[2]);
+            
+            int wins = 0;
+
+            for (long speed = 0; speed < time; speed++)
+            {
+                long timeLeft = time - speed;
+                long distance = timeLeft * speed;
+
+                if (distance > recordDistance)
+                {
+                    wins++;
+                }
+            }
+            
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
-            Regex numbers = new Regex(@"([0-9]+)");
-            return -1;
+            return wins;
         }
     }
 }
