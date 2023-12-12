@@ -18,6 +18,7 @@
     <None Remove="InputFiles\AOC_input_2023-08.txt" />
     <None Remove="InputFiles\AOC_input_2023-09.txt" />
     <None Remove="InputFiles\AOC_input_2023-10.txt" />
+    <None Remove="InputFiles\AOC_input_2023-11.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="InputFiles\AOC_input_2023-03.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="InputFiles\AOC_input_2023-11.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="InputFiles\AOC_input_2023-10.txt">
