@@ -1,11 +1,5 @@
-﻿using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Drawing;
-using System.Globalization;
-using System.Text;
+﻿using System.Collections;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AdventOfCode2023
 {
@@ -14,7 +8,7 @@ namespace AdventOfCode2023
         public static void Solve()
         {
             StreamReader reader = new("InputFiles\\AOC_input_2023-12.txt");
-            Console.WriteLine("Day eleven:\t\t(this may take a while)\n");
+            Console.WriteLine("Day twelve:\t\t(this may take a while)\n");
             int result1 = Part1(ref reader);
             int result2 = Part2(ref reader);
 
@@ -24,7 +18,7 @@ namespace AdventOfCode2023
 
         private static int Part1(ref StreamReader reader)
         {
-            string? input = reader.ReadLine() ?? throw new Exception("Error reading input file");
+            string input = reader.ReadLine() ??throw new Exception("Error reading input file");
             Regex springGroups = new(@"([?]*#*)+(?:(?<!/)\.)?");
             Regex broken = new(@"#+");
             Regex numbers = new(@"[0-9]+");
@@ -38,6 +32,7 @@ namespace AdventOfCode2023
                                                 .ToList();
 
                 int brokenLengthCount = brokenLengths.Count();
+                int totalBroken = brokenLengths.Aggregate((length, next) => length + next);
 
                 char[] springGroup = springGroups.Matches(input)
                                                    .AsParallel()
@@ -56,23 +51,38 @@ namespace AdventOfCode2023
                 int permutationCount = (int)Math.Pow(2, unknownCount);
                 BitArray unknowns = new(unknownCount);
 
+                int brokenCount = springGroup.AsParallel().Where((item) => item == '#').Count();
+
                 for (int i = 0; i < permutationCount; i++)
                 {
-
+                    for (int j = 0; j < unknownCount && !(unknowns[j] = !unknowns[j++]);) ; //Increments bit array by 1
+                    int currentBroken = brokenCount;
+                    
                     for (int j = 0; j < unknownCount; j++)
                     {
                         springGroup[unkownIndexes[j]] = unknowns[j] ? '#' : '.';
+                        if (unknowns[j])
+                        {
+                            currentBroken++;
+                        }
+                    }
+
+                    if(currentBroken != totalBroken)
+                    {
+                        continue;
                     }
 
                     string springs = new string(springGroup);
-                    List<int> brokenGroups = broken.Matches(springs)
-                                                   .AsParallel()
-                                                   .Select(item => item.Length)
-                                                   .ToList();
-
-                    int brokenCount = brokenGroups.Count;
-                    bool isValid = (brokenCount == brokenLengthCount);
-                    for (int j = 0; j < brokenCount && isValid; j++)
+                    
+                    List<int> brokenGroups = new();
+                    foreach (Match match in broken.Matches(springs))
+                    {
+                        brokenGroups.Add(match.Length);
+                    }
+                    
+                    int groupCount = brokenGroups.Count;
+                    bool isValid = (groupCount == brokenLengthCount);
+                    for (int j = 0; j < groupCount && isValid; j++)
                     {
                         isValid = brokenGroups[j] == brokenLengths[j];
                     }
@@ -81,8 +91,6 @@ namespace AdventOfCode2023
                     {
                         sum++;
                     }
-
-                    for (int j = 0; j < unknownCount && !(unknowns[j] = !unknowns[j++]);) ; //Increments bit array by 1
                 }
 
                 input = reader.ReadLine();
