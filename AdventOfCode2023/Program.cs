@@ -4,7 +4,7 @@
     {
         static void Main()
         {
-            Day14.Solve();
+            Day15.Solve();
         }
     }
 }
