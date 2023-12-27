@@ -27,9 +27,13 @@
     <None Remove="InputFiles\AOC_input_2023-16.txt" />
     <None Remove="InputFiles\AOC_input_2023-17.txt" />
     <None Remove="InputFiles\AOC_input_2023-18.txt" />
+    <None Remove="InputFiles\AOC_input_2023-19.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="InputFiles\AOC_input_2023-19.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="InputFiles\AOC_input_2023-18.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
