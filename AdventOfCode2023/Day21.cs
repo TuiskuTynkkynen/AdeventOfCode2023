@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AdventOfCode2023
 {
@@ -38,28 +40,47 @@ namespace AdventOfCode2023
 
 
             HashSet<Vector2> positions = new() { start };
-            for(int step = 0; step < stepCount; step++)
+            Dictionary<Vector2, List<Vector2>> memo = new();
+
+            for (int step = 0; step < stepCount; step++)
             {
                 List<Vector2> currentPostions = positions.ToList();
                 positions.Clear();
 
-                while (currentPostions.Any())
+                int count = currentPostions.Count;
+                for (int i = 0; i < count; i++)
                 {
-                    Vector2 current = currentPostions.Last();
-                    currentPostions.RemoveAt(currentPostions.Count - 1);
+                    Vector2 current = currentPostions[i];
 
-                    foreach(Vector2 direction in directions)
+                    if (memo.TryGetValue(current, out List<Vector2>? added))
+                    {
+                        int addedCount = added.Count;
+                        for (int j = 0; j < addedCount; j++)
+                        {
+                            positions.Add(added[j]);
+                        }
+                        continue;
+                    }
+
+                    added = new();
+
+                    foreach (Vector2 direction in directions)
                     {
                         Vector2 next = current + direction;
 
-                        if(next.Y < 0 || next.Y >= height || next.X < 0 || next.X >= width || input[(int)next.Y][(int)next.X] == rockCharacter)
+                        if (next.Y < 0 || next.Y >= height || next.X < 0 || next.X >= width || input[(int)next.Y][(int)next.X] == rockCharacter || positions.Contains(next))
                         {
                             continue;
-                        } 
+                        }
 
+                        added.Add(next);
                         positions.Add(next);
                     }
+
+                    memo.Add(current, added);
+
                 }
+
             }
 
             reader.BaseStream.Seek(0, SeekOrigin.Begin);
